@@ -7,14 +7,15 @@ class MoviesController < ApplicationController
   end
 
   def index
-    sort = params[:sort] || session[:sort]
-    if params[:sort] != session[:sort]
-      session[:sort] = sort
+  
+    if session[:ratings] && !params[:ratings]
+      redirect_to movies_path(:ratings => session[:ratings], :sort => params[:sort])
     end
 
-    if sort 
-      @movies = Movie.find(:all, :order => "#{sort} asc")
-      @sort = sort
+    sorted_field = params[:sort]
+    if sorted_field 
+      @movies = Movie.sorted(sorted_field)
+      @sort = sorted_field
     else
       @movies = Movie.all
       @sort = nil

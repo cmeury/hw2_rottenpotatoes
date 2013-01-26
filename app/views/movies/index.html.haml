@@ -1,4 +1,5 @@
 -#  This file is app/views/movies/index.html.haml
+%pre= params.inspect
 %h1 All Movies
 
 = form_tag movies_path, :id => 'ratings_form', :method => :get do
@@ -6,6 +7,7 @@
   - @all_ratings.each do |rating|
     = rating
     = check_box_tag "ratings[#{rating}]", 1, @sel_ratings.include?(rating), :id => "ratings_#{rating}"
+    = hidden_field_tag :sort, @sort if @sort
   = submit_tag 'Refresh', :id => 'ratings_submit'
 
 %table#movies

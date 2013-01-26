@@ -6,4 +6,10 @@ class Movie < ActiveRecord::Base
     return ratings
   end
 
+  def self.sorted(field)
+    find(:all, :order => "#{field} asc")
+  end
+
+
+
 end
