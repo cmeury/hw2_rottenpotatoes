@@ -9,11 +9,13 @@ class MoviesController < ApplicationController
   def index
   
     if session[:ratings] && !params[:ratings]
+      flash.keep
       redirect_to movies_path(params.merge( { ratings: session[:ratings] } ) )
       return
     end
 
     if session[:sort] && !params[:sort]
+      flash.keep
       redirect_to movies_path(params.merge( { sort: session[:sort] } ) )
       return
     end
