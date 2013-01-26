@@ -9,7 +9,13 @@ class MoviesController < ApplicationController
   def index
   
     if session[:ratings] && !params[:ratings]
-      redirect_to movies_path(:ratings => session[:ratings], :sort => params[:sort])
+      redirect_to movies_path(params.merge( { ratings: session[:ratings] } ) )
+      return
+    end
+
+    if session[:sort] && !params[:sort]
+      redirect_to movies_path(params.merge( { sort: session[:sort] } ) )
+      return
     end
 
     sorted_field = params[:sort]
@@ -21,15 +27,17 @@ class MoviesController < ApplicationController
       @sort = nil
     end
     
-    ratings = params[:ratings] || session[:ratings]
-    if params[:ratings] != session[:ratings]
-      session[:ratings] = ratings
+    if params[:ratings] && !session[:ratings]
+      session[:ratings] = params[:ratings]
+    end
+    if params[:info] && !session[:info]
+      session[:info] = params[:info]
     end
    
     @all_ratings = Movie.unique_ratings
     
-    if ratings
-      @sel_ratings = ratings.keys
+    if params[:ratings]
+      @sel_ratings = params[:ratings].keys
       @movies = @movies.select { |m| @sel_ratings.include? m.rating } 
     else
       @sel_ratings = @all_ratings.map { |r| r.to_s } 
