@@ -27,11 +27,11 @@ class MoviesController < ApplicationController
       @sort = nil
     end
     
-    if params[:ratings] && !session[:ratings]
+    if params[:ratings] 
       session[:ratings] = params[:ratings]
     end
-    if params[:info] && !session[:info]
-      session[:info] = params[:info]
+    if params[:sort] 
+      session[:sort] = params[:sort]
     end
    
     @all_ratings = Movie.unique_ratings
