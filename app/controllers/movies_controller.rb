@@ -18,13 +18,15 @@ class MoviesController < ApplicationController
       @movies = Movie.all
       @sort = nil
     end
-    if params[:ratings]
-      @sel_raitings = params[:ratings].keys
-      @movies = @movies.select { |m| @sel_raitings.include? m.rating } 
-    else
-      @sel_raitings = []
-    end
+   
     @all_ratings = Movie.unique_ratings
+    
+    if params[:ratings]
+      @sel_ratings = params[:ratings].keys
+      @movies = @movies.select { |m| @sel_ratings.include? m.rating } 
+    else
+      @sel_ratings = @all_ratings.map { |r| r.to_s } 
+    end
   end
 
   def new
