@@ -11,6 +11,7 @@ class MoviesController < ApplicationController
     if params[:sort] != session[:sort]
       session[:sort] = sort
     end
+
     if sort 
       @movies = Movie.find(:all, :order => "#{sort} asc")
       @sort = sort
@@ -18,11 +19,16 @@ class MoviesController < ApplicationController
       @movies = Movie.all
       @sort = nil
     end
+    
+    ratings = params[:ratings] || session[:ratings]
+    if params[:ratings] != session[:ratings]
+      session[:ratings] = ratings
+    end
    
     @all_ratings = Movie.unique_ratings
     
-    if params[:ratings]
-      @sel_ratings = params[:ratings].keys
+    if ratings
+      @sel_ratings = ratings.keys
       @movies = @movies.select { |m| @sel_ratings.include? m.rating } 
     else
       @sel_ratings = @all_ratings.map { |r| r.to_s } 
