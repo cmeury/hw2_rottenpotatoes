@@ -33,9 +33,6 @@ h1.title {
   font-size: 2em;
   font-style: normal;
 }
-img#logo {
-  float:left;margin:0 5px 0 0
-}
 table#movies {
   margin: 10px;
   border-collapse: collapse;
